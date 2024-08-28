@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kdo má dnes svátek?</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                background-color: rgb(238, 231, 223);
+                font-family: "Montserrat", sans-serif;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                background-color: rgb(255, 127, 234);
+                text-align: center;
+                border-radius: 20px;
+                width: 50%;
+                padding: 50px;
+                margin: auto;
+                margin-top: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>Kdo má dnes svátek?</h1>
+            <script src="./datesList.js"></script>
+
+            <script>
+                const currentDate = new Date(); //variable with current date
+                const matchingNames = []; //vytvořeno pole pro ukládání nalezených jmen, která v daný den mají svátek
+
+                /*použití cyklu, tj. loop, ať nemusíme vypisovat všech 365 podmínek/conditions; typ podmínky "for...of" = outputs the content of the array"; array=pole*/
+                for (nameDate of datesList) {
+                    //dateList = proměnná, ve které jsou uložená zdrojová data a jména (seznám svátků)
+                    let month = nameDate.Date.substring(0, 2); //definujeme, která část řádků je ifnormace o měsíck;
+                    let day = nameDate.Date.substring(3, 5); // proměnná s informací dne
+                    const currentMonth = currentDate.getMonth() + 1; // voláme funkci getMonth, kterou z currentDate dostaneme informaci o současném měsíci
+                    const currentDay = currentDate.getDate(); // stejné pro den; nemůžeme použít getDay(vrací index dne v týdnu), musíme použít getDate - vrací datum/číslo dne v měsíci (viz dokumentace funkce)
+                    month = Number(month); //musíme převést string na číslo, jinak kód nefunguje, protože v datesList jsou úložené informace v podobě textu=string a ne čísla
+                    day = Number(day);
+
+                    /* níže podmínka, která v případě, že se současný den a měsíc shoduje s měsícem a dnem ze seznámu datesList, tak nám to vyhodí string s inforamcí, kdo má dnes svátek*/
+                    if (currentMonth === month && currentDay === day) {
+                        matchingNames.push(nameDate.Name); // přidá/vloží jeden nebo více elementů do pole "matchingNames"=array
+                        // === zmanená, že se informace musí přesně shodovat, jinak se v prohlížeči nic nezobrazí
+                        //document.write(`Dnes má svátek ${nameDate.Name}.`);
+                        //$ => template literals / template strings = jednodušší způsob spojování řetězců (textu a proměnných, ve kterých je úložený další text)
+                    }
+                }
+                if (matchingNames.length > 0) {
+                    //kontrola, jestli array=pole má v sobě nějaké hodnoty
+                    document.write(`Dnes má svátek ${matchingNames.join(", ")}.`);
+                } else {
+                    document.write("Dnes nemá nikdo svátek."); // pokud je pole prázdné, zobrazí se tato věta
+                }
+            </script>
+        </div>
+    </body>
+</html>
